@@ -72,6 +72,9 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         binding.btnLogin.setOnClickListener {
             viewModel.login(binding.etEmail.text.toString(), binding.etPassword.text.toString())
         }
+        binding.btnSignUp.setOnClickListener {
+            findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
+        }
     }
 
 

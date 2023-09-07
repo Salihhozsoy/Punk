@@ -12,4 +12,6 @@ interface UserDao {
 
     @Query("select * from UserEntity where email=:email and password =:password")
     suspend fun getUser(email: String, password: String) :UserEntity?
+    @Query("select * from UserEntity where email=:email")
+    suspend fun getUserByEmail(email: String) :UserEntity?
 }
