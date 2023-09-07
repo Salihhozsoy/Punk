@@ -3,10 +3,13 @@ package com.example.punkproject.ui.login
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
+import com.example.punkproject.Extension.showToast
 import com.example.punkproject.R
 import com.example.punkproject.data.state.LoginState
 import com.example.punkproject.databinding.FragmentLoginBinding
@@ -23,6 +26,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         binding = FragmentLoginBinding.bind(view)
 
         observeLoginState()
+        listeners()
 
     }
 
@@ -33,13 +37,26 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                     when(it){
                         LoginState.Idle->{}
                         LoginState.Loading->{}
-                        LoginState.UserNotFound->{}
-                        is LoginState.Success->{}
-                        is LoginState.Error->{}
+                        LoginState.UserNotFound->{
+                            requireContext().showToast("kullanıcı bulunamadı")
+                        }
+                        is LoginState.Success->{
+                            findNavController().navigate(R.id.action_loginFragment_to_punkFragment)
+                        }
+                        is LoginState.Error->{
+                            requireContext().showToast("giriş başarısız")
+                        }
                     }
                 }
             }
         }
     }
+
+    private fun listeners(){
+        binding.btnLogin.setOnClickListener {
+            viewModel.login(binding.etEmail.text.toString(), binding.etPassword.text.toString())
+        }
+    }
+
 
 }
