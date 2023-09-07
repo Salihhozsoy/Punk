@@ -1,5 +1,7 @@
 package com.example.punkproject.ui.login
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
@@ -20,10 +22,21 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
 
     private lateinit var binding: FragmentLoginBinding
     private val viewModel:LoginFragmentViewModel by activityViewModels()
+    private var sharedPreferences: SharedPreferences? = null
+    companion object {
+        const val LOGIN_REMEMBER_ME = "LOGIN_REMEMBER_ME"
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentLoginBinding.bind(view)
+
+        sharedPreferences = activity?.getSharedPreferences(LOGIN_REMEMBER_ME, Context.MODE_PRIVATE)
+        sharedPreferences?.let {
+            if (it.getBoolean(LOGIN_REMEMBER_ME, false)) {
+                findNavController().navigate(R.id.action_loginFragment_to_punkFragment)
+            }
+        }
 
         observeLoginState()
         listeners()
@@ -41,6 +54,9 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                             requireContext().showToast("kullanıcı bulunamadı")
                         }
                         is LoginState.Success->{
+                            if (binding.cbRememberMe.isChecked) {
+                                sharedPreferences?.edit()?.putBoolean(LOGIN_REMEMBER_ME, true)?.apply()
+                            }
                             findNavController().navigate(R.id.action_loginFragment_to_punkFragment)
                         }
                         is LoginState.Error->{
