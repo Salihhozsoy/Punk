@@ -7,11 +7,12 @@ import androidx.room.Query
 @Dao
 interface UserDao {
 
-    @Insert
-    suspend fun insert(user: UserEntity)
-
-    @Query("select * from UserEntity where email=:email and password =:password")
+    @Query("select * from UserEntity where email=:email and password =:password")     //login için
     suspend fun getUser(email: String, password: String) :UserEntity?
-    @Query("select * from UserEntity where email=:email")
+
+    @Insert
+    suspend fun insert(user: UserEntity)                                              //register için
+
+    @Query("select * from UserEntity where email=:email")                             //register için
     suspend fun getUserByEmail(email: String) :UserEntity?
 }

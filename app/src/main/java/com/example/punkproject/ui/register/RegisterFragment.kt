@@ -32,6 +32,7 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
                 viewModel.registerState.collect{
                     when(it){
                         RegisterState.Idle->{}
+                        RegisterState.UserAlready->{}
                         RegisterState.Loading->{}
                         is RegisterState.Result->{
                             findNavController().navigate(R.id.action_registerFragment_to_punkFragment)

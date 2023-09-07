@@ -19,28 +19,18 @@ class LoginFragmentViewModel @Inject constructor(private val loginRepository: Lo
 
     fun login(email: String, password: String) {
         viewModelScope.launch {
-            if (email.isNotEmpty() && password.isNotEmpty()) {
-                kotlin.runCatching {
-
+            kotlin.runCatching {
+                if (email.isNotEmpty() && password.isNotEmpty()) {
                     _loginState.value = LoginState.Loading
-                    loginRepository.login(email, password)?.let {
-                        _loginState.value = LoginState.Success(it)
-                        println("login başarılı")
+                    _loginState.value = loginRepository.login(email, password)
 
-                    } ?: kotlin.run {
-
-                        _loginState.value = LoginState.UserNotFound
-                        println("kullanıcı bulunamadı")
-
-                    }
-                }.onFailure {
-
-                    _loginState.value = LoginState.Error(it)
-                    println("giriş başarısız ${it.message}")
+                } else {
+                    //alanları boş bırakmayın
                 }
-            }else{
-                //alanları boş bırakmayın
+            }.onFailure {
+                _loginState.value = LoginState.Error(it)
             }
+
         }
     }
 }
