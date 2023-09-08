@@ -22,6 +22,7 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
         super.onViewCreated(view, savedInstanceState)
         binding= FragmentRegisterBinding.bind(view)
 
+        observeMessage()
         observeRegisterState()
         listeners()
 
@@ -37,10 +38,17 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
                         is RegisterState.Result->{
                             findNavController().navigate(R.id.action_registerFragment_to_punkFragment)
                         }
-                        is RegisterState.Error->{
-                            requireContext().showToast("kullanıcı eklenemedi")
-                        }
+                        is RegisterState.Error->{}
                     }
+                }
+            }
+        }
+    }
+    private fun observeMessage(){
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.CREATED){
+                viewModel.message.collect{
+                    requireContext().showToast(it)
                 }
             }
         }

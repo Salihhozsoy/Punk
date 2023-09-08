@@ -37,7 +37,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                 findNavController().navigate(R.id.action_loginFragment_to_punkFragment)
             }
         }
-
+        observeMessage()
         observeLoginState()
         listeners()
 
@@ -50,19 +50,24 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                     when(it){
                         LoginState.Idle->{}
                         LoginState.Loading->{}
-                        LoginState.UserNotFound->{
-                            requireContext().showToast("kullanıcı bulunamadı")
-                        }
+                        LoginState.UserNotFound->{}
                         is LoginState.Success->{
                             if (binding.cbRememberMe.isChecked) {
                                 sharedPreferences?.edit()?.putBoolean(LOGIN_REMEMBER_ME, true)?.apply()
                             }
                             findNavController().navigate(R.id.action_loginFragment_to_punkFragment)
                         }
-                        is LoginState.Error->{
-                            requireContext().showToast("giriş başarısız")
-                        }
+                        is LoginState.Error->{}
                     }
+                }
+            }
+        }
+    }
+    private fun observeMessage(){
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.CREATED){
+                viewModel.message.collect{
+                    requireContext().showToast(it)
                 }
             }
         }
