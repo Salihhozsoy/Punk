@@ -2,6 +2,8 @@ package com.example.punkproject.di
 
 import com.example.punkproject.data.repository.LoginRepository
 import com.example.punkproject.data.repository.LoginRepositoryImpl
+import com.example.punkproject.data.repository.PhotoRepository
+import com.example.punkproject.data.repository.PhotoRepositoryImpl
 import com.example.punkproject.data.repository.RegisterRepository
 import com.example.punkproject.data.repository.RegisterRepositoryImpl
 import dagger.Module
@@ -24,5 +26,10 @@ object RepositoryModule {
     @Singleton
     fun provideUserRepository(userRepositoryImpl: RegisterRepositoryImpl): RegisterRepository =
         userRepositoryImpl
+
+    @Provides
+    @Singleton
+    fun providePhotoRepository(photoRepositoryImpl: PhotoRepositoryImpl): PhotoRepository =
+        photoRepositoryImpl
 
 }
