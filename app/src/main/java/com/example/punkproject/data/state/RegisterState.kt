@@ -7,5 +7,5 @@ sealed class RegisterState{
     object Loading:RegisterState()
     object UserAlready:RegisterState()
     object Result:RegisterState()
-    class Error(var throwable: Throwable?=null):RegisterState()
+    class Error(val throwable: Throwable?=null):RegisterState()
 }

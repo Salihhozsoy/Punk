@@ -2,6 +2,7 @@ package com.example.punkproject.ui.punklist
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.punkproject.data.model.ResponseItem
 import com.example.punkproject.data.repository.PhotoRepository
 import com.example.punkproject.data.state.PhotoListState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -27,5 +28,8 @@ class PunkFragmentViewModel @Inject constructor(private val photoRepository: Pho
                 _photoListState.value =PhotoListState.Error(it)
             }
         }
+    }
+    fun removeItem(responseItem: ResponseItem){
+
     }
 }

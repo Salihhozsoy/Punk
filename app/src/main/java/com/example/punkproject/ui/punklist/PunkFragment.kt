@@ -42,7 +42,7 @@ class PunkFragment : Fragment(R.layout.fragment_punk) {
                         PhotoListState.Loading -> {}
                         PhotoListState.Empty -> {}
                         is PhotoListState.Result -> {
-                         binding.rvPunks.adapter=PhotoAdapter(requireContext(),it.items,this@PunkFragment::onClick)
+                         binding.rvPunks.adapter=PhotoAdapter(requireContext(),it.items,this@PunkFragment::onClick,this@PunkFragment::onRemove)
                         }
                         is PhotoListState.Error -> {}
                     }
@@ -53,6 +53,9 @@ class PunkFragment : Fragment(R.layout.fragment_punk) {
 
     private fun onClick(responseItem: ResponseItem) {
         findNavController().navigate(R.id.action_punkFragment_to_punkDetailFragment, bundleOf(PUNKID to responseItem.id))
+    }
+    private fun onRemove(responseItem: ResponseItem){
+        viewModel.removeItem(responseItem)
     }
 
 }
