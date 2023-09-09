@@ -13,14 +13,15 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class PunkDetailViewModel @Inject constructor(private val photoRepository: PhotoRepository):ViewModel() {
+class PunkDetailViewModel @Inject constructor(private val photoRepository: PhotoRepository) :
+    ViewModel() {
 
-    private val _punkDetailState: MutableStateFlow<ResponseItem?> = MutableStateFlow(null)
-    val punkDetailState: StateFlow<ResponseItem?> =_punkDetailState
-    fun getPhotoById(id:Int){
+    private val _punkDetailState: MutableStateFlow<List<ResponseItem>?> = MutableStateFlow(null)
+    val punkDetailState: StateFlow<List<ResponseItem>?> = _punkDetailState
+    fun getPhotoById(id: Int) {
         viewModelScope.launch {
             runCatching {
-                _punkDetailState.value=(photoRepository.getPhotosById(id))
+                _punkDetailState.value = photoRepository.getPhotosById(id)
             }
         }
     }

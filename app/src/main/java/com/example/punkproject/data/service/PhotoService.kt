@@ -10,6 +10,5 @@ interface PhotoService {
     suspend fun getAllPhotos(): List<ResponseItem>
 
     @GET("v2/beers/{id}")
-
-    suspend fun getPhotosById(@Path("id") id: Int): ResponseItem
+    suspend fun getPhotosById(@Path("id")id: Int): List<ResponseItem>
 }

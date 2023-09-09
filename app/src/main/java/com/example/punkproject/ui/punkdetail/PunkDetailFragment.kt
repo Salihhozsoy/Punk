@@ -29,6 +29,7 @@ class PunkDetailFragment : Fragment(R.layout.fragment_punk_detail) {
         arguments?.getInt(PUNKID, -1)?.let { punkId ->
             viewModel.getPhotoById(punkId)
         }
+
     }
 
 
@@ -37,9 +38,9 @@ class PunkDetailFragment : Fragment(R.layout.fragment_punk_detail) {
             repeatOnLifecycle(Lifecycle.State.CREATED) {
                 viewModel.punkDetailState.collect {
                     it?.let {
-                        binding.tvName.text = it.name
-                        binding.ivImage.load(it.image_url)
-                        binding.etText.setText(it.description)
+                        binding.tvName.text = it[0].name
+                        binding.ivImage.load(it[0].image_url)
+                        binding.etText.setText(it[0].description)
                     }
 
                 }
