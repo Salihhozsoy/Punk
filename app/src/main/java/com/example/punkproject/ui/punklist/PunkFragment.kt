@@ -5,10 +5,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import com.example.punkproject.R
 import com.example.punkproject.data.model.ResponseItem
 import com.example.punkproject.data.state.PhotoListState
@@ -20,13 +22,16 @@ class PunkFragment : Fragment(R.layout.fragment_punk) {
 
     private lateinit var binding: FragmentPunkBinding
     private val viewModel:PunkFragmentViewModel by activityViewModels()
+    companion object{
+        const val PUNKID="punkId"
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentPunkBinding.bind(view)
 
         observePhotoListState()
-        viewModel.getAllPhotos("beers")
+        viewModel.getAllPhotos()
     }
     private fun observePhotoListState() {
         lifecycleScope.launch {
@@ -38,7 +43,6 @@ class PunkFragment : Fragment(R.layout.fragment_punk) {
                         PhotoListState.Empty -> {}
                         is PhotoListState.Result -> {
                          binding.rvPunks.adapter=PhotoAdapter(requireContext(),it.items,this@PunkFragment::onClick)
-                            println("geldi ${it.items}")
                         }
                         is PhotoListState.Error -> {}
                     }
@@ -47,6 +51,8 @@ class PunkFragment : Fragment(R.layout.fragment_punk) {
         }
     }
 
-    private fun onClick(responseItem: ResponseItem) {}
+    private fun onClick(responseItem: ResponseItem) {
+        findNavController().navigate(R.id.action_punkFragment_to_punkDetailFragment, bundleOf(PUNKID to responseItem.id))
+    }
 
 }

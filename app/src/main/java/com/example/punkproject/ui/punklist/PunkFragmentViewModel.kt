@@ -15,7 +15,7 @@ class PunkFragmentViewModel @Inject constructor(private val photoRepository: Pho
     private val _photoListState: MutableStateFlow<PhotoListState> = MutableStateFlow(PhotoListState.Idle)
     val photoListState: StateFlow<PhotoListState> =_photoListState
 
-    fun getAllPhotos(query:String){
+    fun getAllPhotos(){
         viewModelScope.launch {
             kotlin.runCatching {
                 _photoListState.value =PhotoListState.Loading

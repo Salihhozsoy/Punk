@@ -21,7 +21,11 @@
         android:id="@+id/punkFragment"
         android:name="com.example.punkproject.ui.punklist.PunkFragment"
         android:label="fragment_punk"
-        tools:layout="@layout/fragment_punk" />
+        tools:layout="@layout/fragment_punk" >
+        <action
+            android:id="@+id/action_punkFragment_to_punkDetailFragment"
+            app:destination="@id/punkDetailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/registerFragment"
         android:name="com.example.punkproject.ui.register.RegisterFragment"
@@ -29,6 +33,15 @@
         tools:layout="@layout/fragment_register" >
         <action
             android:id="@+id/action_registerFragment_to_punkFragment"
+            app:destination="@id/punkFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/punkDetailFragment"
+        android:name="com.example.punkproject.ui.punkdetail.PunkDetailFragment"
+        android:label="fragment_punk_detail"
+        tools:layout="@layout/fragment_punk_detail" >
+        <action
+            android:id="@+id/action_punkDetailFragment_to_punkFragment"
             app:destination="@id/punkFragment" />
     </fragment>
 </navigation>

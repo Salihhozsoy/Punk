@@ -8,4 +8,8 @@ class PhotoRepositoryImpl @Inject constructor(private val photoService: PhotoSer
     override suspend fun getAllPhotos(): List<ResponseItem> {
         return photoService.getAllPhotos()
     }
+
+    override suspend fun getPhotosById(id:Int): ResponseItem {
+        return photoService.getPhotosById(id)
+    }
 }

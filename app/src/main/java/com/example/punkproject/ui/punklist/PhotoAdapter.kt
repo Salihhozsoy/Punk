@@ -11,11 +11,13 @@ import com.example.punkproject.databinding.PunkListItemBinding
 class PhotoAdapter(
     private val context: Context,
     private var items: List<ResponseItem>,
-    val onClick: (responseItem:ResponseItem) -> Unit
+    val onClick: (responseItem: ResponseItem) -> Unit
 ) : RecyclerView.Adapter<PhotoAdapter.CustomViewHolder>() {
 
     class CustomViewHolder(binding: PunkListItemBinding) : RecyclerView.ViewHolder(binding.root) {
         val ivPunkImage = binding.ivPunkImage
+        val tvPunkName = binding.tvPunkName
+        val etPunkDescription = binding.etPunkDescription
 
     }
 
@@ -28,6 +30,9 @@ class PhotoAdapter(
     override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
         val items = items[position]
         holder.ivPunkImage.load(items.image_url)
+        holder.tvPunkName.text = items.name
+        holder.etPunkDescription.text = items.description
+
         holder.itemView.setOnClickListener {
             onClick(items)
         }
