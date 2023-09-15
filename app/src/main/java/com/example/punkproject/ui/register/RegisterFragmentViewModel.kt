@@ -24,17 +24,22 @@ class RegisterFragmentViewModel @Inject constructor(private val registerReposito
     private val _message: MutableSharedFlow<String> = MutableSharedFlow()
     val message: SharedFlow<String> = _message
 
-    fun register(email: String, password: String) {
+    fun register(email: String, password: String, confirm: String) {
         viewModelScope.launch {
             kotlin.runCatching {
-                if (email.isNotEmpty() && password.isNotEmpty()) {
+                if (email.isNotEmpty() && password.isNotEmpty() && confirm.isNotEmpty()) {
                     _registerState.value = RegisterState.Loading
 
                     if(registerRepository.getUserByEmail(email) == RegisterState.Result){
-                        val user = UserEntity(email = email, password = password)
-                        registerRepository.insert(user)
-                        _registerState.value =RegisterState.Result
-                        _message.emit("kullanıcı eklendi")
+                        if(password==confirm){
+                            val user = UserEntity(email = email, password = password)
+                            registerRepository.insert(user)
+                            _registerState.value =RegisterState.Result
+                            _message.emit("kullanıcı eklendi")
+                        }else{
+                            _message.emit("şifreler eşleşmiyor")
+                        }
+
                     }else{
                         _registerState.value = RegisterState.UserAlready
                         _message.emit("kullanıcı zaten var")

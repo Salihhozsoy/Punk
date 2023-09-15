@@ -55,7 +55,7 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
     }
     private fun listeners(){
         binding.btnRegisterSignUp.setOnClickListener {
-            viewModel.register(binding.etRegisterEmail.text.toString().trim(),binding.etRegisterPassword.text.toString().trim())
+            viewModel.register(binding.etRegisterEmail.text.toString().trim(),binding.etRegisterPassword.text.toString().trim(),binding.etConfirmPassword.text.toString().trim())
         }
     }
 }
